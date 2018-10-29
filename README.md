@@ -5,6 +5,7 @@ DeepProbLog is an extension of [ProbLog](https://dtai.cs.kuleuven.be/problog/) t
 ## Requirements
 
 DeepProbLog has the following requirements:
+
 * [ProbLog](https://dtai.cs.kuleuven.be/problog/)
 * [PyTorch](https://pytorch.org/)
 
@@ -15,9 +16,10 @@ Documentation will be made available on the [wiki](https://bitbucket.org/problog
 ## Examples
 
 DeepProbLog comes with a few examples:
-* [MNIST addition](src/examples/MNIST/README.md)
-* [Program Induction cfr. Differentiable Forth](src/examples/Forth/README.md)
-* [The coin-urn experiment](src/examples/CoinUrn/README.md)
+
+* [MNIST addition](examples/MNIST/)
+* [Program Induction](examples/Forth/)
+* [The coin-urn experiment](examples/CoinUrn/)
 
 
 ## Licensing
