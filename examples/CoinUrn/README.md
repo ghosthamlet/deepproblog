@@ -1,6 +1,7 @@
 # The coin-urn experiment
 
 This experiment was made to show combined:
+
 * Probabilistic inference
 * Learning probabilistic parameters
 * Deep Learning
