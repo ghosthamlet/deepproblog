@@ -5,10 +5,9 @@ import numpy as np
 
 class SemiringGradient(Semiring):
 
-    def __init__(self, model, shape, substitution=None):
+    def __init__(self, model, shape):
         Semiring.__init__(self)
         self.shape = shape
-        self.substitution = substitution
         self.model = model
 
     def zero(self):

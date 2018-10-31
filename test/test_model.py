@@ -76,3 +76,12 @@ addition(X,Y,Z) :- digit(X,X2),digit(Y,Y2),Z is X2+Y2."""
         #query = Term('addition',Constant(2),Constant(3),Constant(5))
         solution = model.solve(query)
         print(solution)
+
+    def test_test(self):
+        model_string = "nn(fc,[X,Y],Z,[0,1]) :: a(X,Y,Z).\nb(X,Y,Z) :- a(X,Y,Z)."
+        fc = FC(10, 2)
+        net = Network(fc,'fc', lambda a, b, c: Variable(torch.FloatTensor([0.2,0.8])))
+        model = Model(model_string, [net])
+        query = Term('b',Constant("string with 's"), Constant(3), Var('X'))
+        solution = model.solve(query,test=True)
+        print(solution)

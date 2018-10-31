@@ -7,6 +7,7 @@ from vector_shape import VectorShape
 from problog.sdd_formula import SDD
 from zipfile import ZipFile
 import pickle
+from gradient_semiring import SemiringGradient
 
 class Model(object):
 
@@ -54,9 +55,20 @@ class Model(object):
                 original_model.append(line)
         return '\n'.join(original_model), '\n'.join(new_lines_train), '\n'.join(new_lines_test)
 
-    def get_sdd(self, q, evidence=None, test=False):
+    def build_sdd(self, q, test):
         i = 1 if test else 0
-        if self.caching:
+        ground = self.engine[i].ground_all(self.problog_model[i], queries=[q])
+        sdd = SDD.create_from(ground)
+        # print(sdd)
+        # sdd.build_dd()
+        # print(sdd)
+        # shape = VectorShape(self, sdd)
+        # semiring = SemiringGradient(self, shape)
+        # evaluator = sdd.get_evaluator(semiring=semiring)
+        return sdd
+
+    def get_sdd(self, q, test=False):
+        if self.caching and not test:
             if str(q) not in self.sdd_cache:
                 if self.saving:
                     fname = os.path.abspath('sdd/' + str(q))
@@ -64,31 +76,27 @@ class Model(object):
                         with open(fname, 'rb') as f:
                             sdd = pickle.load(f)
                     except IOError:
-                        ground = self.engine[i].ground_all(self.problog_model[i], queries=[q], evidence=evidence)
-                        sdd = SDD.create_from(ground)
+                        sdd = self.build_sdd(q,test)
                         with open(fname, 'wb') as f:
                             pickle.dump(sdd, f)
                 else:
-                    ground = self.engine[i].ground_all(self.problog_model[i], queries=[q], evidence=evidence)
-                    sdd = SDD.create_from(ground)
+                    sdd = self.build_sdd(q, test)
                 shape = VectorShape(self, sdd)
                 self.sdd_cache[str(q)] = sdd, shape
             return self.sdd_cache[str(q)]
         else:
-            if evidence is not None:
-                ground = self.engine[i].ground_all(self.problog_model[i], queries=[q], evidence=evidence)
-            else:
-                ground = self.engine[i].ground_all(self.problog_model[i], queries=[q])
-            sdd = SDD.create_from(ground)
-            #sdd = SDD.create_from(ground, inode_manager=self.sdd_manager)
-            #self.sdd_manager = sdd.get_manager()
-
+            # if evidence is not None:
+            #     ground = self.engine[i].ground_all(self.problog_model[i], queries=[q], evidence=evidence)
+            # else:
+            #     ground = self.engine[i].ground_all(self.problog_model[i], queries=[q])
+            # sdd = SDD.create_from(ground)
+            sdd = self.build_sdd(q, test)
             shape = VectorShape(self, sdd)
             return sdd, shape
 
     def solve(self, query, evidence=None, test=False):
         self.n += 1
-        sdd, shape = self.get_sdd(query, evidence, test)
+        sdd, shape = self.get_sdd(query, test)
         solution = solve(self, sdd, shape)
         self.clear()
         return solution

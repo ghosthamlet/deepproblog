@@ -56,13 +56,18 @@ def test_MNIST(model,max_digit=10,name='mnist_net'):
     print('F1: ',F1)
     return [('F1',F1)]
 
-def neural_predicate(network, i):
+
+def neural_predicate(network, i, dataset):
     i = int(i)
-    d, l = mnist_train_data[i]
+    dataset = str(dataset)
+    if dataset == 'train':
+        d, l = mnist_train_data[i]
+    elif dataset == 'test':
+        d, l = mnist_test_data[i]
     d = Variable(d.unsqueeze(0))
     output = network.net(d)
     return output.squeeze(0)
 
 transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
-mnist_train_data = torchvision.datasets.MNIST(root=dir_path+'/../../data/MNIST', train=True, download=True,transform=transform)
-mnist_test_data = torchvision.datasets.MNIST(root=dir_path+'/../../data/MNIST', train=False, download=True,transform=transform)
+mnist_train_data = torchvision.datasets.MNIST(root=dir_path+'/../../../data/MNIST', train=True, download=True,transform=transform)
+mnist_test_data = torchvision.datasets.MNIST(root=dir_path+'/../../../data/MNIST', train=False, download=True,transform=transform)

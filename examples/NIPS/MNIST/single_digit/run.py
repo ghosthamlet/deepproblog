@@ -1,6 +1,6 @@
 from train import train_model
 from data_loader import load
-from examples.MNIST.mnist import test_MNIST, MNIST_Net, neural_predicate
+from examples.NIPS.MNIST.mnist import test_MNIST, MNIST_Net, neural_predicate
 from model import Model
 from optimizer import Optimizer
 from network import Network

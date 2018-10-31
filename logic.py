@@ -2,6 +2,7 @@ import problog
 from problog.logic import *
 from gradient_semiring import SemiringGradient
 
+
 def extract_parameters(model):
     parameters = dict()
     ad = dict()
@@ -20,7 +21,7 @@ def extract_parameters(model):
 
 
 def solve(model, sdd, shape):
-    semiring = SemiringGradient(model, shape, None)
+    semiring = SemiringGradient(model, shape)
     result = sdd.evaluate(semiring=semiring)
     result = {k: (result[k][0], shape.split(result[k][1])) for k in result}
     return result
