@@ -17,9 +17,6 @@ Documentation will be made available on the [wiki](https://bitbucket.org/problog
 
 DeepProbLog comes with a few examples:
 
-* [MNIST addition](examples/MNIST/)
-* [Program Induction](examples/Forth/)
-* [The coin-urn experiment](examples/CoinUrn/)
-
-
-## Licensing
+* [MNIST addition](examples/NIPS/MNIST/)
+* [Program Induction](examples/NIPS/Forth/)
+* [The coin-urn experiment](examples/NIPS/CoinUrn/)
