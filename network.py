@@ -1,11 +1,13 @@
 import torch
 import problog
+from problog.extern import problog_export
 
 from logic import term2list2
 
 
 def count_backward(self, x, y):
     self.n += 1
+
 
 
 class Network(object):
@@ -88,9 +90,9 @@ class AD_Network(Network):
         return self.output_domain[predicted]
 
     def register_external(self, _, test_model):
-        problog.engine_builtin.problog_export.database = test_model
+        problog_export.database = test_model
         signature = ['+term'] * len(self.input_terms) + ['-term']
-        problog.engine_builtin.problog_export(*signature)(self.test_predicate, funcname=self.name)
+        problog_export(*signature)(self.test_predicate, funcname=self.name)
 
     def get_probability(self, inputs, output):
         if tuple(inputs) not in self.evaluated:
@@ -136,7 +138,7 @@ class Det_Network(Network):
 
     def register_external(self, model, test_model):
         signature = ['+term'] * len(self.input_terms) + ['-term']
-        problog.engine_builtin.problog_export.database = model
-        problog.engine_builtin.problog_export(*signature)(self.predicate, funcname=self.name)
-        problog.engine_builtin.problog_export.database = test_model
-        problog.engine_builtin.problog_export(*signature)(self.predicate, funcname=self.name)
+        problog_export.database = model
+        problog_export(*signature)(self.predicate, funcname=self.name)
+        problog_export.database = test_model
+        problog_export(*signature)(self.predicate, funcname=self.name)
