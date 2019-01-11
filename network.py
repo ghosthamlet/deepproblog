@@ -92,7 +92,7 @@ class AD_Network(Network):
     def register_external(self, _, test_model):
         problog_export.database = test_model
         signature = ['+term'] * len(self.input_terms) + ['-term']
-        problog_export(*signature)(self.test_predicate, funcname=self.name)
+        problog_export(*signature)(self.test_predicate, funcname=self.name, modname=None)
 
     def get_probability(self, inputs, output):
         if tuple(inputs) not in self.evaluated:
@@ -139,6 +139,6 @@ class Det_Network(Network):
     def register_external(self, model, test_model):
         signature = ['+term'] * len(self.input_terms) + ['-term']
         problog_export.database = model
-        problog_export(*signature)(self.predicate, funcname=self.name)
+        problog_export(*signature)(self.predicate, funcname=self.name, modname=None)
         problog_export.database = test_model
-        problog_export(*signature)(self.predicate, funcname=self.name)
+        problog_export(*signature)(self.predicate, funcname=self.name, modname=None)

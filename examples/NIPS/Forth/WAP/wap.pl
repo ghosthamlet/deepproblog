@@ -1,4 +1,4 @@
-nn(nn_rnn, [X], Y) :: rnn(X,Y).
+%nn(nn_rnn, [X], Y) :: rnn(X,Y).
 nn(nn_permute, [X],Y,[0,1,2,3,4,5]) :: net1(X,Y).
 nn(nn_op1, [X],Y, [plus,minus,times,div]) :: net2(X,Y).
 nn(nn_swap, [X],Y, [no_swap,swap]) :: net3(X,Y).
@@ -20,8 +20,8 @@ operator(minus,X,Y,Z) :- Z is X-Y.
 operator(times,X,Y,Z) :- Z is X*Y.
 operator(div,X,Y,Z) :- Y > 0, 0 =:= X mod Y,Z is X//Y.
 
-wap(Text,X1,X2,X3,Out) :-
-    rnn(Text,Repr),
+wap(Repr,X1,X2,X3,Out) :-
+    %rnn(Text,Repr),
     net1(Repr,Perm),
     permute(Perm,X1,X2,X3,N1,N2,N3),
     net2(Repr,Op1),

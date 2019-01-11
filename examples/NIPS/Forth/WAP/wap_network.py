@@ -53,20 +53,23 @@ network4 = FC(600,4)
 
 
 def np1(net,sentence):
+    if net.last[0] == str(sentence): #Caching
+        return net.last[1]
     tokenized,numbers,indices = tokenize(str(sentence).strip('"'))
     data = torch.zeros(len(tokenized),1,len(vocab))
     for i,t in enumerate(tokenized):
         data[i,0,t] = 1.0
     outputs = net.net(Variable(data),*indices)
-    #return outputs
-    id = net.model.store(outputs)
-    return id
+    net.last = (str(sentence),outputs)
+    return outputs
+#    id = net.model.store(outputs)
+#    return id
 
 
 
 def np2(net, id):
-    #representation = np1(networks[0], id)
-    representation = net.model.retrieve(int(str(id)))
+    representation = np1(networks[0], id)
+    #representation = net.model.retrieve(int(str(id)))
     outputs = net.net(representation)
     return outputs.squeeze(0)
 
@@ -77,7 +80,7 @@ networks = [Network(rnn, 'nn_rnn', np1),
             Network(network2, 'nn_op1', np2),
             Network(network3, 'nn_swap', np2),
             Network(network4, 'nn_op2', np2)]
-
+networks[0].last = ('',None)
 
 networks[0].optimizer = optim.Adam(rnn.parameters(), lr=0.02)
 networks[1].optimizer = optim.Adam(network1.parameters(), lr=0.02)
