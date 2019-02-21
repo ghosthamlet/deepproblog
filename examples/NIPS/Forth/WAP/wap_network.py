@@ -62,14 +62,11 @@ def np1(net,sentence):
     outputs = net.net(Variable(data),*indices)
     net.last = (str(sentence),outputs)
     return outputs
-#    id = net.model.store(outputs)
-#    return id
 
 
 
 def np2(net, id):
     representation = np1(networks[0], id)
-    #representation = net.model.retrieve(int(str(id)))
     outputs = net.net(representation)
     return outputs.squeeze(0)
 

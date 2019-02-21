@@ -31,6 +31,9 @@ class Network(object):
         if self.optimizer is not None:
             self.evaluated[i].backward(grad, retain_graph=True)
 
+    def register_external(self, *args, **kwargs):
+        pass
+        
     def clear(self):
         self.evaluated.clear()
 
