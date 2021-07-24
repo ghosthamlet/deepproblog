@@ -1,3 +1,6 @@
+# UPDATE
+Its official repo is on github now: https://github.com/ML-KULeuven/deepproblog
+
 # DeepProbLog
 
 DeepProbLog is an extension of [ProbLog](https://dtai.cs.kuleuven.be/problog/) that integrates Probabilistic Logic Programming with Deep Learning. See our [paper](https://arxiv.org/abs/1805.10872) on DeepProbLog.
